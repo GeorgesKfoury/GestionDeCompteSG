@@ -13,8 +13,6 @@ namespace GestionDeCompteSG.Persistence
 {
     public class Repository : IRepository
     {
-
-        //public IList<TransactionUnitaire> Transactions { get; set; } = new List<TransactionUnitaire>();
         public SortedList<DateOnly, List<TransactionUnitaire>> SortedTransactions { get; set; } = new SortedList<DateOnly, List<TransactionUnitaire>>();
         public SortedDictionary<DateOnly, float> SoldesComptes { get; set; } = new SortedDictionary<DateOnly, float>();
         public Dictionary<string, float> TransactionsDeDebitParCategories { get; set; } = new Dictionary<string, float>();
@@ -71,7 +69,7 @@ namespace GestionDeCompteSG.Persistence
                             Devise = Enum.Parse<Devise>(parts[2], true),
                             Categorie = parts[3]
                         };
-                        //Transactions.Add(tu);
+                        
                         if (SortedTransactions.ContainsKey(tu.Date))
                         {
                             SortedTransactions[tu.Date].Add(tu);
@@ -80,9 +78,9 @@ namespace GestionDeCompteSG.Persistence
                         {
                             SortedTransactions.Add(tu.Date, new List<TransactionUnitaire> { tu });
                         }
-                        //SortedTransactions.Add(tu.Date, tu);
+                        
                         Tools.HandleUpdateCategories(tu, TransactionsDeDebitParCategories);
-                        //if (Tools.HandleUpdateSoldesComptesEtCategories(SoldesComptes, tu, CompteDeReference, TransactionsDeDebitParCategories))
+                        
                     }
                     Tools.HandleProcessingAccount(SortedTransactions, SoldesComptes);
                     Console.WriteLine(string.Join(Environment.NewLine, SoldesComptes.Select(kvp => $"{kvp.Key}: {kvp.Value}")));

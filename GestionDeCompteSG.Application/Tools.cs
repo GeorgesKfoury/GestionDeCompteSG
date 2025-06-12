@@ -89,42 +89,7 @@ namespace GestionDeCompteSG.Application
             }
         }
 
-        /*public static bool HandleUpdateSoldesComptesEtCategories(SortedDictionary<DateOnly,float> sc, TransactionUnitaire tu, SoldeCompte compteDeReference, SortedDictionary<string, float> categories)
-        {
-            if (tu.Date.CompareTo(compteDeReference.Date) <= 0)
-            {
-                if (sc.ContainsKey(tu.Date.AddDays(-1)))
-                {
-                    sc[tu.Date.AddDays(-1)] -= ConvertToEuros(tu.Montant, tu.Devise);
-                }
-                else
-                {
-
-                    KeyValuePair<DateOnly, float> kvp = sc.FirstOrDefault(x => x.Key.CompareTo(tu.Date) >= 0);
-                    sc.Add(tu.Date.AddDays(-1), kvp.Value - ConvertToEuros(tu.Montant, tu.Devise));
-                }
-                //sc.Where(x => x.Key.CompareTo(tu.Date.AddDays(-1)) < 0).ToList().ForEach(x => sc[x.Key] = sc[x.Key] - ConvertToEuros(tu.Montant, tu.Devise));
-                //sc.TakeWhile(s => s.Key.CompareTo(tu.Date.AddDays(-1)) < 0).ToList().ForEach(s => sc[s.Key] -= ConvertToEuros(tu.Montant, tu.Devise));//creates a new list so more resources
-                foreach ( var kvp in sc.TakeWhile(s => s.Key.CompareTo(tu.Date.AddDays(-1)) < 0))
-                {
-                    sc[kvp.Key] -= ConvertToEuros(tu.Montant, tu.Devise);
-                }
-
-                if (categories.ContainsKey(tu.Categorie))
-                {
-                    categories[tu.Categorie] += ConvertToEuros(tu.Montant, tu.Devise);
-                }
-                else
-                {
-                    categories.Add(tu.Categorie, ConvertToEuros(tu.Montant, tu.Devise));
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }           
-        }*/
+       
         public static bool HandleUpdateCategories(TransactionUnitaire tu, Dictionary<string, float> categories)
         {
             
@@ -143,10 +108,10 @@ namespace GestionDeCompteSG.Application
         {
             try
             {
-                //var groups = SortedTransactions.Reverse().GroupBy(t => t.Key);
+                
                 foreach (var item in SortedTransactions.Reverse())
                 {
-                    //var total = group.Sum(t => ConvertToEuros(t.Value.Montant, t.Value.Devise));
+                    
                     var total = item.Value.Sum(s => ConvertToEuros(s.Montant, s.Devise));
                     if (!(SoldesComptes.ContainsKey(item.Key.AddDays(-1))))
                     {
